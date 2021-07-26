@@ -15,11 +15,11 @@ import java.time.Instant;
 public class DateAudit implements Serializable {
 
     @CreatedDate
-    @Column(nullable = false,updatable = false)
+//    @Column(nullable = false,updatable = false)
     private Instant createAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Instant updateAt;
 
 

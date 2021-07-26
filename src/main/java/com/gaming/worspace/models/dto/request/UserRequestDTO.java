@@ -1,6 +1,7 @@
 package com.gaming.worspace.models.dto.request;
 
 import com.gaming.worspace.models.Role;
+import com.gaming.worspace.models.enumerated.Gender;
 import com.sun.istack.internal.NotNull;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor @AllArgsConstructor
+@AllArgsConstructor
 public class UserRequestDTO {
 
     @NotNull
@@ -24,7 +25,21 @@ public class UserRequestDTO {
     private String password;
     private Instant birthday;
     private String phone;
-    private Set<String> rolesString = new HashSet<>();
+    private boolean isToBeAdmin;
+    private String gender;
+    private String image;
+
+
+    public UserRequestDTO() {
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getUsername() {
         return username;
@@ -82,25 +97,19 @@ public class UserRequestDTO {
         this.phone = phone;
     }
 
-    public Set<String> getRolesString() {
-        return rolesString;
+    public boolean isToBeAdmin() {
+        return isToBeAdmin;
     }
 
-    public void setRolesString(Set<String> rolesString) {
-        this.rolesString = rolesString;
+    public void setToBeAdmin(boolean toBeAdmin) {
+        isToBeAdmin = toBeAdmin;
     }
 
-    @Override
-    public String toString() {
-        return "UserDTO{" +
-                "username='" + username + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", birthday=" + birthday +
-                ", phone='" + phone + '\'' +
-                ", roles='" + rolesString + '\'' +
-                '}';
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

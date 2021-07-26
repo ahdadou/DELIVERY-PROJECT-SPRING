@@ -3,10 +3,7 @@ package com.gaming.worspace.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gaming.worspace.models.enumerated.RoleName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -14,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 @Table(name = "ROLE")
 public class Role {
 
@@ -25,44 +23,17 @@ public class Role {
     @Column(name = "ROLE_NAME")
     @Enumerated(EnumType.STRING)
     @NaturalId
-    private RoleName roleName;
+    private RoleName role;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 
 
-
-
-    //    CONSTRUCTORS
-
-    public Role() {
+    public boolean isAdminRole() {
+        return null != this && this.role.equals(RoleName.ROLE_ADMIN);
     }
 
 
-    //    GETTERS  & SETTERS
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public RoleName getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(RoleName roleName) {
-        this.roleName = roleName;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 }
