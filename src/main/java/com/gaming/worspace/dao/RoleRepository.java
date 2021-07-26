@@ -1,0 +1,12 @@
+package com.gaming.worspace.dao;
+
+import com.gaming.worspace.models.Role;
+import com.gaming.worspace.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+
+@Repository
+public interface RoleRepository extends JpaRepository<Role,Long> {
+
+}

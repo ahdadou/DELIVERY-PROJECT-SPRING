@@ -21,7 +21,17 @@ public class Post extends DateAudit {
 
     @Column(name = "BODY",nullable = false)
     private String body;
-//
+
+    @Column(name = "IAMGE")
+    private String image;
+
+    @ManyToMany
+    @JoinTable(name = "POSTS_TAGS",
+            joinColumns = {@JoinColumn(name = "POST_ID",referencedColumnName = "POST_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TAG_ID",referencedColumnName = "TAG_ID")}
+    )
+    private List<Tag> tags = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "post")
 //    private List<Comments> comments = new ArrayList<>();
 //
