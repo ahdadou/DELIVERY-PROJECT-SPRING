@@ -10,27 +10,49 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-@AllArgsConstructor
 public class UserRequestDTO {
 
-    @NotNull
     private String username;
-
     private String firstname;
-
     private String lastname;
-    @NotNull
     private String email;
-    @NotNull
     private String password;
     private Instant birthday;
     private String phone;
     private boolean isToBeAdmin;
     private String gender;
+    private String description;
     private String image;
+    private String city;
+    private boolean isDelivery;
+
 
 
     public UserRequestDTO() {
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean getIsDelivery() {
+        return isDelivery;
+    }
+
+    public void setIsDelivery(boolean isDelivery) {
+        this.isDelivery = isDelivery;
     }
 
     public String getImage() {

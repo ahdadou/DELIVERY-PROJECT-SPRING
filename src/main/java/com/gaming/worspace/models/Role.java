@@ -11,8 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
-@Table(name = "ROLE")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString@Table(name = "ROLE")
 public class Role {
 
     @Id
@@ -33,7 +36,6 @@ public class Role {
     public boolean isAdminRole() {
         return null != this && this.role.equals(RoleName.ROLE_ADMIN);
     }
-
 
 
 }

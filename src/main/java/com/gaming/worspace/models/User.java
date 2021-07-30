@@ -42,6 +42,9 @@ public class User extends DateAudit {
     @Column(name = "PASSWORD")
     private String password;
 
+    @Column(name = "DESCRIPTION")
+    private String description;
+
     @Column(name = "BIRTHDAY")
     private Instant birthday;
 
@@ -53,28 +56,17 @@ public class User extends DateAudit {
     @Column(nullable = false)
     private Gender gender;
 
-    @OneToMany(mappedBy = "to")
-    private List<Follower> followers;
 
-    @OneToMany(mappedBy = "from")
-    private Set<Follower> following;
+    @ManyToOne
+    @JoinColumn(name = "SERVICE_ID")
+    private SERVICE_TYPE service_type;
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Comments> comments;
+    @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private List<Post> posts = new ArrayList<>();
-
-    @Column(name = "IAMGE")
+    @Column(name = "IMAGE")
     private String image;
 
-//    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-//    private List<Likes> likes = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<ChildCommets> childComments;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE} )
     @JoinTable(name = "USER_AUTHORITY",
@@ -90,16 +82,27 @@ public class User extends DateAudit {
     @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
     private Boolean isEmailVerified;
 
-
-
+    @Column(name = "CITY")
+    private String city;
 
 
 
 //    CONSTRUCTORS
 
+    public User() {
+    }
+
 
 //    GETTERS  & SETTERS
 
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public Long getId() {
         return id;
@@ -149,6 +152,14 @@ public class User extends DateAudit {
         this.password = password;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Instant getBirthday() {
         return birthday;
     }
@@ -173,36 +184,22 @@ public class User extends DateAudit {
         this.gender = gender;
     }
 
-    public List<Follower> getFollowers() {
-        return followers;
+
+
+    public SERVICE_TYPE getServiceType() {
+        return service_type;
     }
 
-    public void setFollowers(List<Follower> followers) {
-        this.followers = followers;
+    public void setServiceType(SERVICE_TYPE service) {
+        this.service_type = service;
     }
 
-    public Set<Follower> getFollowing() {
-        return following;
+    public List<Review> getReviews() {
+        return reviews;
     }
 
-    public void setFollowing(Set<Follower> following) {
-        this.following = following;
-    }
-
-    public List<Comments> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comments> comments) {
-        this.comments = comments;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public String getImage() {

@@ -1,14 +1,14 @@
 package com.gaming.worspace.services;
 
 
-import com.gaming.worspace.dao.RoleRepository;
 import com.gaming.worspace.dao.UserRepository;
 import com.gaming.worspace.exceptions.BadRequestException;
 import com.gaming.worspace.exceptions.NotFoundException;
 import com.gaming.worspace.models.Role;
+import com.gaming.worspace.models.SERVICE_TYPE;
 import com.gaming.worspace.models.User;
 import com.gaming.worspace.models.dto.request.UserRequestDTO;
-import com.gaming.worspace.models.enumerated.RoleName;
+import com.gaming.worspace.models.enumerated.Type;
 import com.gaming.worspace.services.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +24,14 @@ public class UserServices {
 
     private UserRepository userRepository;
     private RoleService roleService;
+    private ServiceTypeService serviceTypeService;
     private UserMapper userMapper;
 
     @Autowired
-    public UserServices(UserRepository userRepository, RoleService roleService, UserMapper userMapper) {
+    public UserServices(UserRepository userRepository, RoleService roleService, ServiceTypeService serviceTypeService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.serviceTypeService = serviceTypeService;
         this.userMapper = userMapper;
     }
 
@@ -50,14 +52,28 @@ public class UserServices {
         user.setRoles(getRolesForNewUser(userRequestDTO.isToBeAdmin()));
         user.setActive(true);
         user.setEmailVerified(false);
+        //todo: add service type
 
-      return userRepository.save(user);
+        SERVICE_TYPE service;
+        if(userRequestDTO.getIsDelivery())
+            service = serviceTypeService.getService(Type.DELIVERYMAN.toString());
+        else
+            service = serviceTypeService.getService(Type.CLIENT.toString());
+        user.setServiceType(service);
+
+        return userRepository.save(user);
     }
 
 
     //todo:     READ ITEM BY ID
     public User getUserById(long id){
         return userRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("User Not Found"));
+    }
+
+    //todo:     READ ITEM BY USERNAME
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username)
                 .orElseThrow(()-> new NotFoundException("User Not Found"));
     }
 

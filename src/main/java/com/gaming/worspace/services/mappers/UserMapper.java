@@ -20,7 +20,8 @@ public interface UserMapper {
 
 
     @InheritInverseConfiguration(name = "toUserDTO")
-    User toUser(UserRequestDTO userRequestDTO);
+    User toUser(UserRequestDTO userRequestDTbO);
+
 
     @Mapping(target = "firstname", source = "firstname")
     @Mapping(target = "lastname", source = "lastname")
@@ -30,7 +31,8 @@ public interface UserMapper {
     @Mapping(target = "birthday", source = "birthday")
     @Mapping(target = "username", source = "username")
     @Mapping(target = "image", source = "image")
-    @Mapping(target = "gender", source = "gender")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "city", source = "city")
     UserRequestDTO toUserDTO(User user);
 
 
