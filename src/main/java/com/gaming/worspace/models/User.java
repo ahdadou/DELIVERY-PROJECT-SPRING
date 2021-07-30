@@ -64,8 +64,15 @@ public class User extends DateAudit {
     @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Inbox> inboxs = new ArrayList<>();
+
+
     @Column(name = "IMAGE")
     private String image;
+
+
 
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE} )

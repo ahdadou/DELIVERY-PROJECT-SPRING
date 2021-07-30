@@ -31,8 +31,8 @@ public class ReviewService {
         Review review = new Review();
         review.setBody(reviewRequest.getBody());
         review.setRating(reviewRequest.getRating());
-//        review.setUser_sender(senderUser);
-//        review.setUser_receiver(receiverUser);
+        review.setUser_sender(senderUser);
+        review.setUser_receiver(receiverUser);
 
         return reviewRepository.save(review);
     }

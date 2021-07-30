@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review,Long> {
 
-    Object existsByUser_receiverUsername(String username);
+//    Object existsByUser_receiverUsername(String username);
 }
