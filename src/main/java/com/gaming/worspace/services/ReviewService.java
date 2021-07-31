@@ -8,6 +8,8 @@ import com.gaming.worspace.models.dto.request.ReviewRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ReviewService {
 
@@ -24,7 +26,7 @@ public class ReviewService {
 
 
     //todo: add review
-    public Review addReview(ReviewRequest reviewRequest){
+    public Optional<Review> addReview(ReviewRequest reviewRequest){
         User senderUser = userServices.getUserByEmail(reviewRequest.getEmail_sender());
         User receiverUser = userServices.getUserByEmail(reviewRequest.getEmail_receiver());
 
@@ -34,7 +36,7 @@ public class ReviewService {
         review.setUser_sender(senderUser);
         review.setUser_receiver(receiverUser);
 
-        return reviewRepository.save(review);
+        return Optional.ofNullable(reviewRepository.save(review));
     }
 
 

@@ -1,5 +1,6 @@
 package com.gaming.worspace.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gaming.worspace.models.enumerated.Type;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
@@ -28,6 +29,7 @@ public class SERVICE_TYPE {
 
 
     @OneToMany(mappedBy = "service_type")
+    @JsonIgnore
     private List<User> users = new ArrayList<>();
 
 

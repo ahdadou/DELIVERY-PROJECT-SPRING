@@ -103,7 +103,7 @@ public class UserServices {
     }
 
 
-    public List<User> getAllUserBySERVICETYPE(String servicetype) {
+    public List<User> getAllUserDelevries() {
         SERVICE_TYPE service_type = serviceTypeService.getServiceByType(Type.DELIVERYMAN);
         List<User> users = userRepository.findByService_typeId(service_type.getID());
         return users;

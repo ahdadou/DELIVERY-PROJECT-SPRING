@@ -39,7 +39,6 @@ public class UserController {
 
 
     //  GET ALL USERS
-
     @GetMapping("/all")
     public ResponseEntity<?> getAllUser(){
         List<User> users = userServices.getAllUser();
@@ -47,8 +46,6 @@ public class UserController {
 
     }
 
-    //    GET USER BY USERNAME
-   
 
     //    GET USER BY EMAIL
     @GetMapping("/email")
@@ -58,18 +55,16 @@ public class UserController {
     }
 
     //    GET ALL DELIVRYMAN
-    @GetMapping("/Service")
-    public ResponseEntity<?> getAllUserByServiceType(@PathParam("SERVICETYPE") String SERVICETYPE){
-        List<User> users = userServices.getAllUserBySERVICETYPE(SERVICETYPE);
+    @GetMapping("/all/deliveries")
+    public ResponseEntity<?> getAllDeliveries(){
+        List<User> users = userServices.getAllUserDelevries();
         return ResponseEntity.ok(users);
-
     }
 
 
-
-//
-
 //    DELETE BY USER_ID
+
+    
 
 
 

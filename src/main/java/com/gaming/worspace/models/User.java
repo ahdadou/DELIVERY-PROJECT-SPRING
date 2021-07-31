@@ -69,7 +69,7 @@ public class User extends DateAudit {
 
     @ManyToOne
     @JoinColumn(name = "SERVICETYPE_ID")
-    @JsonIgnore
+//    @JsonIgnore
     private SERVICE_TYPE service_type;
 
     @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
