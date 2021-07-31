@@ -19,20 +19,18 @@ public interface UserMapper {
     List<UserRequestDTO> toUserDTOs(List<User> users);
 
 
-    @InheritInverseConfiguration(name = "toUserDTO")
-    User toUser(UserRequestDTO userRequestDTbO);
-
-
     @Mapping(target = "firstname", source = "firstname")
     @Mapping(target = "lastname", source = "lastname")
     @Mapping(target = "email", source = "email")
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "password", source = "password")
     @Mapping(target = "birthday", source = "birthday")
-    @Mapping(target = "username", source = "username")
     @Mapping(target = "image", source = "image")
     @Mapping(target = "description", source = "description")
-    @Mapping(target = "city", source = "city")
+    User toUser(UserRequestDTO userRequestDTbO);
+
+
+    @InheritInverseConfiguration(name = "toUser")
     UserRequestDTO toUserDTO(User user);
 
 

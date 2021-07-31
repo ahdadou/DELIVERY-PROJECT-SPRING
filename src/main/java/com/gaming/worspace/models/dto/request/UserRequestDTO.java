@@ -12,7 +12,6 @@ import java.util.Set;
 
 public class UserRequestDTO {
 
-    private String username;
     private String firstname;
     private String lastname;
     private String email;
@@ -20,55 +19,15 @@ public class UserRequestDTO {
     private Instant birthday;
     private String phone;
     private boolean isToBeAdmin;
-    private String gender;
+    private boolean man;
     private String description;
     private String image;
-    private String city;
+    private String cityName;
     private boolean isDelivery;
 
 
 
     public UserRequestDTO() {
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean getIsDelivery() {
-        return isDelivery;
-    }
-
-    public void setIsDelivery(boolean isDelivery) {
-        this.isDelivery = isDelivery;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFirstname() {
@@ -127,11 +86,43 @@ public class UserRequestDTO {
         isToBeAdmin = toBeAdmin;
     }
 
-    public String getGender() {
-        return gender;
+    public boolean isMan() {
+        return man;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setMan(boolean man) {
+        this.man = man;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public boolean isDelivery() {
+        return isDelivery;
+    }
+
+    public void setDelivery(boolean delivery) {
+        isDelivery = delivery;
     }
 }

@@ -25,8 +25,8 @@ public class ReviewService {
 
     //todo: add review
     public Review addReview(ReviewRequest reviewRequest){
-        User senderUser = userServices.getUserByUsername(reviewRequest.getUsername_sender());
-        User receiverUser = userServices.getUserByUsername(reviewRequest.getUsername_receiver());
+        User senderUser = userServices.getUserByEmail(reviewRequest.getEmail_sender());
+        User receiverUser = userServices.getUserByEmail(reviewRequest.getEmail_receiver());
 
         Review review = new Review();
         review.setBody(reviewRequest.getBody());

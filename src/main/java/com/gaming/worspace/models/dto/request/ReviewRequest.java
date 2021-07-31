@@ -8,29 +8,29 @@ import lombok.NoArgsConstructor;
 public class ReviewRequest {
 
 
-    public String username_receiver;
+    public String email_receiver;
 
-    public String username_sender;
+    public String email_sender;
 
     private int rating;
 
     private String body;
 
 
-    public String getUsername_receiver() {
-        return username_receiver;
+    public String getEmail_receiver() {
+        return email_receiver;
     }
 
-    public void setUsername_receiver(String username_receiver) {
-        this.username_receiver = username_receiver;
+    public void setEmail_receiver(String email_receiver) {
+        this.email_receiver = email_receiver;
     }
 
-    public String getUsername_sender() {
-        return username_sender;
+    public String getEmail_sender() {
+        return email_sender;
     }
 
-    public void setUsername_sender(String username_sender) {
-        this.username_sender = username_sender;
+    public void setEmail_sender(String email_sender) {
+        this.email_sender = email_sender;
     }
 
     public int getRating() {

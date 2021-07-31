@@ -13,8 +13,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "REVIEW")
-//@Getter
-//@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review extends DateAudit {

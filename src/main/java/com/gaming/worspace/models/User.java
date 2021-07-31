@@ -14,9 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+@ToString
 @Entity
-//@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
+//@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Table(name = "USERS")
 public class User extends DateAudit {
 
@@ -26,9 +26,6 @@ public class User extends DateAudit {
     @SequenceGenerator(name = "user_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "USERNAME",length = 25)
-    private String username;
-
     @Column(name = "FIRSTNAME",length = 25)
     private String firstname;
 
@@ -36,7 +33,7 @@ public class User extends DateAudit {
     private String lastname;
 
     @Email
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL",nullable = false)
     private String email;
 
     @Column(name = "PASSWORD")
@@ -56,19 +53,6 @@ public class User extends DateAudit {
     @Column(nullable = false)
     private Gender gender;
 
-
-    @ManyToOne
-    @JoinColumn(name = "SERVICE_ID")
-    private SERVICE_TYPE service_type;
-
-    @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
-    private List<Review> reviews = new ArrayList<>();
-
-
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private List<Inbox> inboxs = new ArrayList<>();
-
-
     @Column(name = "IMAGE")
     private String image;
 
@@ -83,16 +67,29 @@ public class User extends DateAudit {
     private Set<Role> roles = new HashSet<>();
 
 
+    @ManyToOne
+    @JoinColumn(name = "SERVICETYPE_ID")
+    @JsonIgnore
+    private SERVICE_TYPE service_type;
+
+    @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Inbox> inboxs = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "CITY_ID")
+    @JsonIgnore
+    private City city;
+
+
     @Column(name = "IS_ACTIVE",nullable = false)
     private Boolean active;
 
     @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
     private Boolean isEmailVerified;
-
-    @Column(name = "CITY")
-    private String city;
-
-
 
 //    CONSTRUCTORS
 
@@ -103,14 +100,6 @@ public class User extends DateAudit {
 //    GETTERS  & SETTERS
 
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public Long getId() {
         return id;
     }
@@ -119,13 +108,7 @@ public class User extends DateAudit {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getFirstname() {
         return firstname;
@@ -191,14 +174,12 @@ public class User extends DateAudit {
         this.gender = gender;
     }
 
-
-
-    public SERVICE_TYPE getServiceType() {
+    public SERVICE_TYPE getService_type() {
         return service_type;
     }
 
-    public void setServiceType(SERVICE_TYPE service) {
-        this.service_type = service;
+    public void setService_type(SERVICE_TYPE service_type) {
+        this.service_type = service_type;
     }
 
     public List<Review> getReviews() {
@@ -207,6 +188,14 @@ public class User extends DateAudit {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<Inbox> getInboxs() {
+        return inboxs;
+    }
+
+    public void setInboxs(List<Inbox> inboxs) {
+        this.inboxs = inboxs;
     }
 
     public String getImage() {
@@ -239,5 +228,13 @@ public class User extends DateAudit {
 
     public void setEmailVerified(Boolean emailVerified) {
         isEmailVerified = emailVerified;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }

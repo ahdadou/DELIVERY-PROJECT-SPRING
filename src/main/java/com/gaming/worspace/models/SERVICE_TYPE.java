@@ -10,10 +10,8 @@ import java.util.List;
 
 
 @Entity
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Table(name = "SERVICE_TYPE")
 public class SERVICE_TYPE {
 
@@ -33,5 +31,27 @@ public class SERVICE_TYPE {
     private List<User> users = new ArrayList<>();
 
 
+    public long getID() {
+        return ID;
+    }
 
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }
