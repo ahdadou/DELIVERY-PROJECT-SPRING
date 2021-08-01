@@ -40,8 +40,6 @@
 //        ReviewRequest r = new ReviewRequest();
 //        r.setBody("test");
 //        r.setRating(3);
-//        r.se("user1");
-//        r.setUsername_sender("user2");
 //        return r;
 //    }
 //

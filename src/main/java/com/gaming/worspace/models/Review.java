@@ -1,6 +1,7 @@
 package com.gaming.worspace.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gaming.worspace.models.audit.DateAudit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Review extends DateAudit {
 
     @ManyToOne
     @JoinColumn(name = "RECEIVER_USER_ID")
+    @JsonIgnore
     public User user_receiver;
 
     @OneToOne

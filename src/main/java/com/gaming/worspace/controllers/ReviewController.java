@@ -1,32 +1,33 @@
 package com.gaming.worspace.controllers;
 
 
-import com.gaming.worspace.exceptions.UserRegistrationException;
+import com.gaming.worspace.exceptions.ReviewException;
+import com.gaming.worspace.models.Notification;
 import com.gaming.worspace.models.dto.request.ReviewRequest;
 import com.gaming.worspace.models.dto.response.ApiResponse;
+import com.gaming.worspace.services.NotificationService;
 import com.gaming.worspace.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "api/v1/review")
 public class ReviewController {
 
     private ReviewService reviewService;
-
-    @Autowired
+    private NotificationService notificationService;
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, NotificationService notificationService, SimpMessagingTemplate simpMessagingTemplate) {
         this.reviewService = reviewService;
+        this.notificationService = notificationService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
 
@@ -35,7 +36,7 @@ public class ReviewController {
     public void sendReview(
             @Payload ReviewRequest reviewRequest) throws Exception {
 
-        reviewService.addReview(reviewRequest);
+//        reviewService.addReview(reviewRequest);
         simpMessagingTemplate.convertAndSendToUser(
                 reviewRequest.email_receiver, "/queue/notifications",reviewRequest);
     }
@@ -46,9 +47,19 @@ public class ReviewController {
         return reviewService.addReview(reviewRequest)
                 .map(
                         user ->{
-                            return ResponseEntity.ok(new ApiResponse(true, "User registered successfully. Check your email for verification"));
+                            // add review to notofication table
+                            Notification notification = new Notification();
+                            notification.setUser(user.getUser_receiver());
+                            notification.setUser_sender(user.getUser_sender());
+                            notification = notificationService.createNotification(notification);
+                            //send a notification
+                            simpMessagingTemplate.convertAndSendToUser(
+                                    reviewRequest.email_receiver, "/queue/notifications",notification);
+
+                            return ResponseEntity.ok(new ApiResponse(true, "Review Add successfully"));
                         })
-                .orElseThrow(() -> new UserRegistrationException(reviewRequest.getEmail_sender(), "Missing user object in database"));
+                .orElseThrow(() -> new ReviewException(reviewRequest.getEmail_sender(), reviewRequest.getEmail_receiver()));
+
     }
 
 

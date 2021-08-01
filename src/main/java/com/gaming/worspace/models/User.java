@@ -69,7 +69,7 @@ public class User extends DateAudit {
 
     @ManyToOne
     @JoinColumn(name = "SERVICETYPE_ID")
-//    @JsonIgnore
+//   @JsonIgnore
     private SERVICE_TYPE service_type;
 
     @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
@@ -78,6 +78,9 @@ public class User extends DateAudit {
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Inbox> inboxs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Notification> notifications = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "CITY_ID")
@@ -108,7 +111,13 @@ public class User extends DateAudit {
         this.id = id;
     }
 
-
+//    public List<Notification> getNotifications() {
+//        return notifications;
+//    }
+//
+//    public void setNotifications(List<Notification> notifications) {
+//        this.notifications = notifications;
+//    }
 
     public String getFirstname() {
         return firstname;
