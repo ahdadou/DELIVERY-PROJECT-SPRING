@@ -23,7 +23,7 @@ public class UserRequestDTO {
     private String description;
     private String image;
     private String cityName;
-    private boolean isDelivery;
+    private boolean delivery;
 
 
 
@@ -119,10 +119,10 @@ public class UserRequestDTO {
     }
 
     public boolean isDelivery() {
-        return isDelivery;
+        return delivery;
     }
 
     public void setDelivery(boolean delivery) {
-        isDelivery = delivery;
+        this.delivery = delivery;
     }
 }

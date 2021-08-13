@@ -6,19 +6,17 @@ import com.gaming.worspace.exceptions.BadRequestException;
 import com.gaming.worspace.exceptions.NotFoundException;
 import com.gaming.worspace.models.City;
 import com.gaming.worspace.models.Role;
-import com.gaming.worspace.models.SERVICE_TYPE;
+import com.gaming.worspace.models.Stype;
 import com.gaming.worspace.models.User;
 import com.gaming.worspace.models.dto.request.UserRequestDTO;
+import com.gaming.worspace.models.dto.response.UserResponse;
 import com.gaming.worspace.models.enumerated.Gender;
 import com.gaming.worspace.models.enumerated.Type;
 import com.gaming.worspace.services.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServices {
@@ -56,8 +54,8 @@ public class UserServices {
         user.setEmailVerified(false);
         //todo: add service type
 
-        SERVICE_TYPE service=getService_type(userRequestDTO.isDelivery());
-        user.setService_type(service);
+        Stype service=getService_type(userRequestDTO.isDelivery());
+        user.setStype(service);
         //todo: add CITY
         City city = cityService.getCityByName(userRequestDTO.getCityName());
         user.setCity(city);
@@ -87,6 +85,13 @@ public class UserServices {
                 .orElseThrow(()-> new NotFoundException("User Not Found"));
     }
 
+    //todo:     READ ITEM DTO BY EMAIL
+    public UserResponse getUserDtoByEmail(String email){
+        return userRepository.findByEmail(email)
+                .map(user -> userMapper.toUserResponse(user))
+                .orElseThrow(()-> new NotFoundException("User Not Found"));
+    }
+
 
 
     //todo:    READ ALL ITEMS
@@ -104,8 +109,16 @@ public class UserServices {
 
 
     public List<User> getAllUserDelevries() {
-        SERVICE_TYPE service_type = serviceTypeService.getServiceByType(Type.DELIVERYMAN);
-        List<User> users = userRepository.findByService_typeId(service_type.getID());
+        Stype service_type = serviceTypeService.getServiceByType(Type.DELIVERYMAN);
+        List<User> users = userRepository.findByStypeId(service_type.getId());
+
+
+
+        return users;
+    }
+
+    public List<UserResponse> getAllUserDelevriesDto() {
+        List<UserResponse> users = userMapper.toUsersResponse(getAllUserDelevries());
         return users;
     }
 
@@ -125,8 +138,8 @@ public class UserServices {
         return newUserRoles;
     }
 
-    private SERVICE_TYPE getService_type(boolean isDelivery){
-        SERVICE_TYPE service;
+    private Stype getService_type(boolean isDelivery){
+        Stype service;
         if(isDelivery)
             service = serviceTypeService.getServiceByType(Type.DELIVERYMAN);
         else
@@ -135,5 +148,42 @@ public class UserServices {
     }
 
 
+    public List<UserResponse> getAllUserDelivriesByCity(String city) {
+        Stype service_type = serviceTypeService.getServiceByType(Type.DELIVERYMAN);
+        List<User> users = userRepository.findByCityNameAndStypeId(city,service_type.getId());
+        List<UserResponse> usersDto = userMapper.toUsersResponse(users);
+        return usersDto;
+    }
 
+    public List<UserResponse> findByCityNameAndRatingAverageQuery(String city,int rating) {
+        System.out.println(city+"  ...  "+rating);
+        Stype service_type = serviceTypeService.getServiceByType(Type.DELIVERYMAN);
+        List<User> users = new ArrayList<>();
+        if(city.isEmpty() && rating  == -1){
+            System.out.println(city+"  .-------.  "+rating);
+
+            return this.getAllUserDelevriesDto();
+        }
+        else if(rating  == -1){
+            users=  userRepository.findByCityNameAndStypeId(city,service_type.id);
+
+        }else if(city == null){
+            users=  userRepository.findByRatingAverageAndStypeId(rating,service_type.id);
+        }
+        else{
+            users=  userRepository.findByCityNameAndRatingAverageAndStypeId(city,rating,service_type.id);
+
+        }
+        List<UserResponse> usersDto = userMapper.toUsersResponse(users);
+        return usersDto;
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+
+    public User save(User usuario) {
+        return userRepository.save(usuario);
+    }
 }

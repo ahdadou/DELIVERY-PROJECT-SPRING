@@ -50,11 +50,15 @@ public class User extends DateAudit {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Gender gender;
 
     @Column(name = "IMAGE")
     private String image;
+
+    @Column(name = "isCompteVerifie")
+    private boolean isCompteVerifie;
+
 
 
 
@@ -68,15 +72,16 @@ public class User extends DateAudit {
 
 
     @ManyToOne
-    @JoinColumn(name = "SERVICETYPE_ID")
+    @JoinColumn(name = "Stype_id")
 //   @JsonIgnore
-    private SERVICE_TYPE service_type;
+    private Stype stype;
 
     @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Inbox> inboxs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
@@ -84,7 +89,6 @@ public class User extends DateAudit {
 
     @ManyToOne
     @JoinColumn(name = "CITY_ID")
-    @JsonIgnore
     private City city;
 
 
@@ -94,13 +98,33 @@ public class User extends DateAudit {
     @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
     private Boolean isEmailVerified;
 
+    private int ratingAverage=0;
+
 //    CONSTRUCTORS
 
     public User() {
+        super();
+    }
+
+    public User(User user) {
+        id = user.getId();
+        password = user.getPassword();
+        firstname = user.getFirstname();
+        lastname = user.getLastname();
+        email = user.getEmail();
+        active = user.getActive();
+        roles = user.getRoles();
+        isEmailVerified = user.getEmailVerified();
     }
 
 
 //    GETTERS  & SETTERS
+
+
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
+    }
 
 
     public Long getId() {
@@ -110,14 +134,6 @@ public class User extends DateAudit {
     public void setId(Long id) {
         this.id = id;
     }
-
-//    public List<Notification> getNotifications() {
-//        return notifications;
-//    }
-//
-//    public void setNotifications(List<Notification> notifications) {
-//        this.notifications = notifications;
-//    }
 
     public String getFirstname() {
         return firstname;
@@ -183,12 +199,36 @@ public class User extends DateAudit {
         this.gender = gender;
     }
 
-    public SERVICE_TYPE getService_type() {
-        return service_type;
+    public String getImage() {
+        return image;
     }
 
-    public void setService_type(SERVICE_TYPE service_type) {
-        this.service_type = service_type;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public boolean isCompteVerifie() {
+        return isCompteVerifie;
+    }
+
+    public void setCompteVerifie(boolean compteVerifie) {
+        isCompteVerifie = compteVerifie;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Stype getStype() {
+        return stype;
+    }
+
+    public void setStype(Stype stype) {
+        stype = stype;
     }
 
     public List<Review> getReviews() {
@@ -207,20 +247,20 @@ public class User extends DateAudit {
         this.inboxs = inboxs;
     }
 
-    public String getImage() {
-        return image;
+    public List<Notification> getNotifications() {
+        return notifications;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public City getCity() {
+        return city;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public Boolean getActive() {
@@ -239,11 +279,11 @@ public class User extends DateAudit {
         isEmailVerified = emailVerified;
     }
 
-    public City getCity() {
-        return city;
+    public int getRatingAverage() {
+        return ratingAverage;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setRatingAverage(int ratingAverage) {
+        this.ratingAverage = ratingAverage;
     }
 }

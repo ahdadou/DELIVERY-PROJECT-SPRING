@@ -13,14 +13,14 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "SERVICE_TYPE")
-public class SERVICE_TYPE {
+@Table(name = "Stype")
+public class Stype{ // User Service Type
 
 
     @Id
     @Column(name = "SERVICE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long  ID;
+    public long  id;
 
     @Column(name = "TYPE")
     @Enumerated(EnumType.STRING)
@@ -28,17 +28,17 @@ public class SERVICE_TYPE {
     private Type type;
 
 
-    @OneToMany(mappedBy = "service_type")
+    @OneToMany(mappedBy = "stype")
     @JsonIgnore
     private List<User> users = new ArrayList<>();
 
 
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
-    public void setID(long ID) {
-        this.ID = ID;
+    public void setId(long ID) {
+        this.id = ID;
     }
 
     public Type getType() {

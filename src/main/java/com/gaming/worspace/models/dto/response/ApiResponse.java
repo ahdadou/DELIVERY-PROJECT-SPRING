@@ -3,10 +3,12 @@ package com.gaming.worspace.models.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.Instant;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.Stack;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse {
-
     private final String data;
     private final Boolean success;
     private final String timestamp;
@@ -19,6 +21,7 @@ public class ApiResponse {
         this.success = success;
         this.cause = cause;
         this.path = path;
+
     }
 
     public ApiResponse(Boolean success, String data) {
