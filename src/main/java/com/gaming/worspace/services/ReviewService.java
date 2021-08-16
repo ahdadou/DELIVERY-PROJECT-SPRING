@@ -2,12 +2,14 @@ package com.gaming.worspace.services;
 
 
 import com.gaming.worspace.dao.ReviewRepository;
+import com.gaming.worspace.exceptions.NotFoundException;
 import com.gaming.worspace.models.Review;
 import com.gaming.worspace.models.User;
 import com.gaming.worspace.models.dto.request.ReviewRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,9 +42,9 @@ public class ReviewService {
     }
 
 
+    public List<Review> getByEmail(String email) {
+      return  this.reviewRepository.findByUser_receiverEmail(email)
+                .orElseThrow(()->new NotFoundException("Role Not Found"));
 
-
-
-
-
+    }
 }

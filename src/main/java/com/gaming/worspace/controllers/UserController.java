@@ -14,7 +14,7 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "api/v1/users")
 public class UserController {
@@ -54,6 +54,14 @@ public class UserController {
     @GetMapping("/email")
     public ResponseEntity<?> getUserByEmail(@PathParam("email") String email){
         UserResponse user = userServices.getUserDtoByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
+
+    //    GET USER BY Id
+    @GetMapping("/id")
+    public ResponseEntity<?> getUserById(@PathParam("id") long id){
+        UserResponse user = userServices.getUserDtoById(id);
         return ResponseEntity.ok(user);
     }
 

@@ -8,6 +8,7 @@ import com.gaming.worspace.services.InboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -46,12 +47,15 @@ public class ChatController {
 //       messageRequest.getReceiver_email(), "/queue/chat",messageRequest.getMessage());
 //    }
 
+
     @PostMapping("/add")
     public ResponseEntity addMessageToInbox(@RequestBody MessageRequest messageRequest){
         System.out.println(messageRequest.getReceiver_email());
         System.out.println(messageRequest.getSender_email());
 
         Messages messages = inboxService.addInbox(messageRequest);
+        simpMessagingTemplate.convertAndSendToUser(
+       messageRequest.getReceiver_email(), "/queue/chat",messages);
         return  ResponseEntity.ok(messages);
     }
 

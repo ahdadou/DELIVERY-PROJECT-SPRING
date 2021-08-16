@@ -186,4 +186,10 @@ public class UserServices {
     public User save(User usuario) {
         return userRepository.save(usuario);
     }
+
+    public UserResponse getUserDtoById(long id) {
+        return userRepository.findById(id)
+                .map(user -> userMapper.toUserResponse(user))
+                .orElseThrow(()-> new NotFoundException("User Not Found"));
+    }
 }

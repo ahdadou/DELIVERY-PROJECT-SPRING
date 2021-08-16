@@ -3,6 +3,7 @@ package com.gaming.worspace.controllers;
 
 import com.gaming.worspace.exceptions.ReviewException;
 import com.gaming.worspace.models.Notification;
+import com.gaming.worspace.models.Review;
 import com.gaming.worspace.models.dto.request.ReviewRequest;
 import com.gaming.worspace.models.dto.response.ApiResponse;
 import com.gaming.worspace.services.NotificationService;
@@ -13,6 +14,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -54,13 +58,23 @@ public class ReviewController {
                             notification = notificationService.createNotification(notification);
                             //send a notification
                             simpMessagingTemplate.convertAndSendToUser(
-                                    reviewRequest.email_receiver, "/queue/notifications",notification);
+                                    reviewRequest.email_receiver, "/queue/review",notification);
 
                             return ResponseEntity.ok(new ApiResponse(true, "Review Add successfully"));
                         })
                 .orElseThrow(() -> new ReviewException(reviewRequest.getEmail_sender(), reviewRequest.getEmail_receiver()));
 
     }
+
+
+
+    @GetMapping("/email")
+    public ResponseEntity<?> getReviewByEmail(@PathParam("email") String email){
+        List<Review> reviews= this.reviewService.getByEmail(email);
+        return ResponseEntity.ok(reviews);
+    }
+
+
 
 
 
