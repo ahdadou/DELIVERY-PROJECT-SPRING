@@ -6,6 +6,8 @@ import com.gaming.worspace.models.Notification;
 import com.gaming.worspace.models.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NotificationService {
 
@@ -27,6 +29,9 @@ public class NotificationService {
 
 
 
+    public List<Notification> getListOfNotifications(String email){
+        return notificationRepository.findAllByUserEmail(email);
+    }
 
 
 }
