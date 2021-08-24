@@ -17,12 +17,6 @@ import java.util.Set;
 
 @SpringBootApplication
 public class GamingApplication{
-
-	@Autowired
-	UserRepository userRepository;
-
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(GamingApplication.class, args);
 	}

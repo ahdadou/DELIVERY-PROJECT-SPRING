@@ -79,6 +79,10 @@ public class OAuthController {
         return new ResponseEntity<TokenDto>(tokenRes, HttpStatus.OK);
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "hello test";
+    }
 
 
 
