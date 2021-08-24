@@ -1,14 +1,6 @@
 package com.gaming.worspace.models.dto.request;
-
-import com.gaming.worspace.models.Role;
-import com.gaming.worspace.models.enumerated.Gender;
-import com.sun.istack.internal.NotNull;
-import lombok.*;
-
-import javax.persistence.Column;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+
 
 public class UserRequestDTO {
 
@@ -125,4 +117,6 @@ public class UserRequestDTO {
     public void setDelivery(boolean delivery) {
         this.delivery = delivery;
     }
+
+
 }
