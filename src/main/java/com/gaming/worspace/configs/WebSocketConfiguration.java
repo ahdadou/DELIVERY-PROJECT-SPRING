@@ -19,6 +19,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/live").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/flutter").setAllowedOriginPatterns("*");
     }
 
     @Override
@@ -27,4 +28,5 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         registry.setApplicationDestinationPrefixes("/app");
         registry.setUserDestinationPrefix("/user");
     }
+
 }
