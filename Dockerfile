@@ -1,20 +1,15 @@
-FROM openjdk:8-jdk-alpine
-WORKDIR /app
-COPY ./pom.xml ./pom.xml
-COPY /target/gaming-0.0.1-SNAPSHOT.jar .
-ENTRYPOINT ["java","-jar","gaming-0.0.1-SNAPSHOT.jar"]
-CMD ["-start"]
-#
-## Stage1 - execute build process
-#FROM openjdk:8-jdk-alpine as build_process
-#WORKDIR /app
-#COPY . .
-## RUN ./gradlew build -x test
-#
-#
-## Stage2 - boot app with the build output above
 #FROM openjdk:8-jdk-alpine
-#EXPOSE 80
 #WORKDIR /app
-#COPY target/*.jar .
-#CMD java -jar gaming-0.0.1-SNAPSHOT.jar
+#COPY /target/gaming-0.0.1-SNAPSHOT.jar /app/gaming-0.0.1-SNAPSHOT.jar
+#ENTRYPOINT ["java","-jar","gaming-0.0.1-SNAPSHOT.jar"]
+
+
+FROM maven:4.0.0-jdk-8-alpine as BUILD
+COPY pom.xml /app/
+COPY src /app/src/
+WORKDIR /app
+RUN mvn clean package -DskipTests
+
+FROM openjdk:8-jdk-alpine
+COPY --from=BUILD /app/target/*.jar application.jar
+ENTRYPOINT ["java", "-jar","-Dspring.profiles.active=dev","/application.jar"]
