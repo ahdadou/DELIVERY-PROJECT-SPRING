@@ -20,7 +20,8 @@ public class UserResponse {
     private String description;
     private String image;
     private Gender gender;
-    private City city;
+    private String city;
+    private String Country;
     private int avergeRating;
     private boolean isCompteVerifie;
     private Instant birthday;
@@ -31,6 +32,14 @@ public class UserResponse {
 
     public Instant getBirthday() {
         return birthday;
+    }
+
+    public String getCountry() {
+        return Country;
+    }
+
+    public void setCountry(String country) {
+        Country = country;
     }
 
     public void setBirthday(Instant birthday) {
@@ -109,11 +118,11 @@ public class UserResponse {
         this.gender = gender;
     }
 
-    public City getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setCity(String city) {
         this.city = city;
     }
 

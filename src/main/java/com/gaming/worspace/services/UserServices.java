@@ -54,18 +54,17 @@ public class UserServices {
         user.setEmailVerified(false);
         //todo: add service type
 
-        Stype service=getService_type(userRequestDTO.isDelivery());
-        user.setStype(service);
+        Stype stype = getService_type(false);
+        user.setStype(stype);
         //todo: add CITY
-        City city = cityService.getCityByName(userRequestDTO.getCityName());
-        user.setCity(city);
-
-
+        user.setCity(userRequestDTO.getCityName());
         //todo: add gender type
         if(userRequestDTO.isMan())
             user.setGender(Gender.MALE);
         else
             user.setGender(Gender.FEMALE);
+
+
 
         return Optional.ofNullable(userRepository.save(user));
     }
@@ -191,5 +190,22 @@ public class UserServices {
         return userRepository.findById(id)
                 .map(user -> userMapper.toUserResponse(user))
                 .orElseThrow(()-> new NotFoundException("User Not Found"));
+    }
+
+    public User completeRegister(UserRequestDTO userRequestDTO) {
+        User user = getUserByEmail(userRequestDTO.getEmail());
+        user.setCity(userRequestDTO.getCityName());
+        user.setFirstname(userRequestDTO.getFirstname());
+        user.setLastname(userRequestDTO.getLastname());
+        user.setCountry(userRequestDTO.getCountry());
+        Stype stype = getService_type(userRequestDTO.isDelivery());
+        user.setStype(stype);
+            userRepository.save(user);
+        return user;
+    }
+
+    public List<UserResponse> findByCityOrEmail(String param) {
+        List<User> users =userRepository.findByCityOrEmail(param);
+        return userMapper.toUsersResponse(users);
     }
 }

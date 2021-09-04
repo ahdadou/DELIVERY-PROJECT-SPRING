@@ -24,9 +24,9 @@ public class City {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "city")
-    @JsonIgnore
-    private List<User> users = new ArrayList<>();
+//    @OneToMany(mappedBy = "city")
+//    @JsonIgnore
+//    private List<User> users = new ArrayList<>();
 
 
     public long getID() {
@@ -45,11 +45,11 @@ public class City {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(List<User> users) {
+//        this.users = users;
+//    }
 }

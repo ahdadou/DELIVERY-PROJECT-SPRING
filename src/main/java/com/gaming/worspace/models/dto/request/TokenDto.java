@@ -7,6 +7,7 @@ public class TokenDto {
     String firstname;
     String lastname;
     String image;
+    boolean newAccount=false;
 
     public String getValue() {
         return value;
@@ -28,6 +29,14 @@ public class TokenDto {
 //        super();
 //        this.value = value;
 //    }
+
+    public boolean isNewAccount() {
+        return newAccount;
+    }
+
+    public void setNewAccount(boolean newAccount) {
+        this.newAccount = newAccount;
+    }
 
     public TokenDto() {
         super();

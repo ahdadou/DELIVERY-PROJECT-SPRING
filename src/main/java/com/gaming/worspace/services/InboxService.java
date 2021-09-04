@@ -1,6 +1,5 @@
 package com.gaming.worspace.services;
 
-import antlr.debug.MessageAdapter;
 import com.gaming.worspace.dao.InboxRepository;
 import com.gaming.worspace.dao.MessagesRepository;
 import com.gaming.worspace.exceptions.NotFoundException;
@@ -8,7 +7,11 @@ import com.gaming.worspace.models.Inbox;
 import com.gaming.worspace.models.Messages;
 import com.gaming.worspace.models.User;
 import com.gaming.worspace.models.dto.request.MessageRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gaming.worspace.models.dto.response.InboxResponse;
+import com.gaming.worspace.models.dto.response.MessagesResponse;
+import com.gaming.worspace.services.mappers.InboxMapper;
+import com.gaming.worspace.services.mappers.MessagesMapper;
+import com.gaming.worspace.services.mappers.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,31 +22,42 @@ public class InboxService {
     private UserServices userServices;
     private MessagesRepository messagesRepository;
     private InboxRepository inboxRepository;
+    private UserMapper userMapper;
+    private InboxMapper inboxMapper;
+    private MessagesMapper messagesMapper;
 
-    public InboxService(UserServices userServices, MessagesRepository messagesRepository, InboxRepository inboxRepository) {
+
+    public InboxService(UserServices userServices, MessagesRepository messagesRepository, InboxRepository inboxRepository, UserMapper userMapper, InboxMapper inboxMapper, MessagesMapper messagesMapper) {
         this.userServices = userServices;
         this.messagesRepository = messagesRepository;
         this.inboxRepository = inboxRepository;
+        this.userMapper = userMapper;
+        this.inboxMapper = inboxMapper;
+        this.messagesMapper = messagesMapper;
     }
 
 
 
 
     //get Inbox by User Email
-    public List<Inbox> getInboxByEmail(String email){
-        return inboxRepository.findAllByUserEmail(email)
+    public List<InboxResponse> getInboxByEmail(String email){
+        List<Inbox>  inboxes= inboxRepository.findAllByUserEmail(email)
                 .orElseThrow(()-> new NotFoundException("Inbox Not Found"));
+
+        return inboxMapper.toInboxResponse(inboxes);
     }
 
     //get Message By Inbox id
-    public List<Messages> getMessagesByInboxId(long id){
-        return messagesRepository.findAllByInboxId(id)
+    public List<MessagesResponse> getMessagesByInboxId(long id){
+        List<Messages>messagesResponses= messagesRepository.findAllByInboxId(id)
                 .orElseThrow(()-> new NotFoundException("Inbox Not Found"));
+
+        return messagesMapper.messagesToMessagesResponse(messagesResponses);
 
     }
 
     //add message
-    public Messages addInbox(MessageRequest messages){
+    public MessagesResponse addInbox(MessageRequest messages){
         //getUsers
         User senderUser = userServices.getUserByEmail(messages.getSender_email());
         User receiverUser = userServices.getUserByEmail(messages.getReceiver_email());
@@ -91,15 +105,35 @@ public class InboxService {
         messages1.setInbox(receiverInbox);
         messages1 = messagesRepository.save(messages1);
 
-        return messages1;
+        return messagesMapper.messageToMessagesResponse(messages1);
 
     }
 
 
+    public Long getInboxIdByReceiverAndSenderEmail(String senderEmail, String receiverEmail) {
 
 
 
+        Inbox senderInbox = inboxRepository.findByUserEmailAndConnectedUserEmail(senderEmail,receiverEmail);
+        if(senderInbox==null){
+            User receiverUser = userServices.getUserByEmail(receiverEmail);
+            User senderUser = userServices.getUserByEmail(senderEmail);
+            Inbox sender = new Inbox();
+            sender.setUser(senderUser);
+            sender.setConnectedUser(receiverUser);
+            sender.setLastMessage("");
+            senderInbox = inboxRepository.save(sender);
 
+            Inbox receiverInbox = inboxRepository.findByUserEmailAndConnectedUserEmail(receiverEmail,senderEmail);
+            if(receiverInbox==null){
+                Inbox receiver = new Inbox();
+                receiver.setUser(receiverUser);
+                receiver.setConnectedUser(senderUser);
+                receiver.setLastMessage("");
+                receiverInbox = inboxRepository.save(receiver);
+            }
+        }
 
-
+        return senderInbox.getId();
+    }
 }

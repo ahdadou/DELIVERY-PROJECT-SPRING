@@ -22,8 +22,9 @@ public class User extends DateAudit {
 
     @Id
     @Column(name = "USER_ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+//    @SequenceGenerator(name = "user_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "FIRSTNAME",length = 25)
@@ -59,6 +60,9 @@ public class User extends DateAudit {
     @Column(name = "isCompteVerifie")
     private boolean isCompteVerifie;
 
+    @OneToOne
+    @JoinColumn(name = "TRACKING_ID")
+    private Tracking tracking;
 
 
 
@@ -87,9 +91,8 @@ public class User extends DateAudit {
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Notification> notifications = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "CITY_ID")
-    private City city;
+    private String cityName;
+    private String country;
 
 
     @Column(name = "IS_ACTIVE",nullable = false)
@@ -126,6 +129,21 @@ public class User extends DateAudit {
         role.getUsers().add(this);
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Tracking getTracking() {
+        return tracking;
+    }
+
+    public void setTracking(Tracking tracking) {
+        this.tracking = tracking;
+    }
 
     public Long getId() {
         return id;
@@ -228,7 +246,15 @@ public class User extends DateAudit {
     }
 
     public void setStype(Stype stype) {
-        stype = stype;
+        this.stype = stype;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public List<Review> getReviews() {
@@ -255,12 +281,12 @@ public class User extends DateAudit {
         this.notifications = notifications;
     }
 
-    public City getCity() {
-        return city;
+    public String getCity() {
+        return cityName;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCity(String city) {
+        this.cityName = city;
     }
 
     public Boolean getActive() {

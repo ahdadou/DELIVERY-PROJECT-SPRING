@@ -35,10 +35,9 @@ public class DelevriesController {
 //        List<UserResponse> users = userServices.getAllUserDelevriesByCity(city);
 //        return ResponseEntity.ok(users);
 //    }
-//
-//
+
+
 //    // Get Delevries By Rating
-//
 //    @GetMapping("/city/{city}")
 //    public ResponseEntity<?> getAllDeliveriesByRating(@PathVariable("city") String city){
 //        List<UserResponse> users = userServices.getAllUserDelevriesByCity(city);
@@ -47,15 +46,21 @@ public class DelevriesController {
 
 
 
+//    @GetMapping("/filter")
+//    public ResponseEntity<?> getAllDeliveriesByCityAndRating(@PathParam("rating")int rating,@PathParam("city") String city){
+//        List<UserResponse> users=null;
+//        users = userServices.findByCityNameAndRatingAverageQuery(city,rating);
+//        return ResponseEntity.ok(users);
+//    }
+
+
+
     @GetMapping("/filter")
-    public ResponseEntity<?> getAllDeliveriesByCityAndRating(@PathParam("rating")int rating,@PathParam("city") String city){
-        List<UserResponse> users=null;
-        users = userServices.findByCityNameAndRatingAverageQuery(city,rating);
+    public ResponseEntity<?> getAllDeliveriesByCityOrEmail(@PathParam("param")String param){
+        System.out.println("------------------------------filter ----->"+param);
+        List<UserResponse> users  = userServices.findByCityOrEmail(param);
         return ResponseEntity.ok(users);
     }
-
-
-
 
 
 

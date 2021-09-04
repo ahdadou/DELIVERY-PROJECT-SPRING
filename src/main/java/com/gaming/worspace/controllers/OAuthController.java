@@ -4,6 +4,7 @@ import com.gaming.worspace.models.CustomUserDetails;
 import com.gaming.worspace.models.Role;
 import com.gaming.worspace.models.User;
 import com.gaming.worspace.models.dto.request.TokenDto;
+import com.gaming.worspace.models.dto.request.UserRequestDTO;
 import com.gaming.worspace.models.enumerated.Gender;
 import com.gaming.worspace.services.RoleService;
 import com.gaming.worspace.services.UserServices;
@@ -59,6 +60,7 @@ public class OAuthController {
 
     @PostMapping("/google")
     public ResponseEntity<TokenDto> google(@RequestBody TokenDto tokenDto) throws IOException {
+
         final NetHttpTransport transport = new NetHttpTransport();
         final GsonFactory jacksonFactory = GsonFactory.getDefaultInstance();
         GoogleIdTokenVerifier.Builder verifier =
@@ -67,15 +69,19 @@ public class OAuthController {
         final GoogleIdToken googleIdToken = GoogleIdToken.parse(verifier.getJsonFactory(), tokenDto.getValue());
         final GoogleIdToken.Payload payload = googleIdToken.getPayload();
         User usuario = new User();
+        TokenDto tokenRes=new TokenDto();
         if(usuarioService.existsByEmail(payload.getEmail()))
         {
             usuario = usuarioService.getUserByEmail(payload.getEmail());
+            tokenRes = login(usuario);
+            tokenRes.setNewAccount(false);
         }
         else
         {
             usuario = googlePaylodSave(payload);
+            tokenRes.setNewAccount(true);
+            tokenRes = login(usuario);
         }
-        TokenDto tokenRes = login(usuario);
         return new ResponseEntity<TokenDto>(tokenRes, HttpStatus.OK);
     }
 
@@ -107,18 +113,26 @@ public class OAuthController {
         System.out.println(user.getEmail());
 
         User usuario = new User();
-        if(usuarioService.existsByEmail(user.getEmail()))
+        if(usuarioService.existsByEmail(user.getEmail())){
             usuario = usuarioService.getUserByEmail(user.getEmail());
-        else
+
+        }
+        else{
             usuario = saveUsuario(user.getEmail());
+        }
         TokenDto tokenRes = login(usuario);
         return new ResponseEntity(tokenRes, HttpStatus.OK);
     }
 
 
+    @PostMapping("/update")
+    public ResponseEntity<?> completeRegister(@RequestBody UserRequestDTO userRequestDTO){
+        User user= this.usuarioService.completeRegister(userRequestDTO);
+        return new ResponseEntity(user,HttpStatus.OK);
+    }
+
 
     private TokenDto login(User usuario){
-        System.out.println("-------------------LOGIN------------");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(usuario.getEmail(), secretPsw)
         );

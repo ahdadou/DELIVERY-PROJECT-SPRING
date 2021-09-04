@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface MessagesRepository extends JpaRepository<Messages,Long> {
 
-     @Query("SELECT u FROM Messages u WHERE u.inbox.Id = :id")
+     @Query("SELECT u FROM Messages u WHERE u.inbox.id = :id")
      Optional<List<Messages>> findAllByInboxId(@Param("id") long id);
 }

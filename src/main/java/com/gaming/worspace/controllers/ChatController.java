@@ -4,6 +4,8 @@ package com.gaming.worspace.controllers;
 import com.gaming.worspace.models.Inbox;
 import com.gaming.worspace.models.Messages;
 import com.gaming.worspace.models.dto.request.MessageRequest;
+import com.gaming.worspace.models.dto.response.InboxResponse;
+import com.gaming.worspace.models.dto.response.MessagesResponse;
 import com.gaming.worspace.services.InboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,21 +41,12 @@ public class ChatController {
 
 
 
-//    @PostMapping("/add")
-//    public void addMessageToInbox(@Payload MessageRequest messageRequest){
-//
-//        Messages messages = inboxService.addInbox(messageRequest);
-//       simpMessagingTemplate.convertAndSendToUser(
-//       messageRequest.getReceiver_email(), "/queue/chat",messageRequest.getMessage());
-//    }
-
-
     @PostMapping("/add")
     public ResponseEntity addMessageToInbox(@RequestBody MessageRequest messageRequest){
         System.out.println(messageRequest.getReceiver_email());
         System.out.println(messageRequest.getSender_email());
 
-        Messages messages = inboxService.addInbox(messageRequest);
+        MessagesResponse messages = inboxService.addInbox(messageRequest);
         simpMessagingTemplate.convertAndSendToUser(
        messageRequest.getReceiver_email(), "/queue/chat",messages);
         return  ResponseEntity.ok(messages);
@@ -61,20 +54,24 @@ public class ChatController {
 
     @GetMapping("/{email}")
     public ResponseEntity getInboxByEmail(@PathVariable("email") String email){
-        List<Inbox> inbox = inboxService.getInboxByEmail(email);
+        List<InboxResponse> inbox = inboxService.getInboxByEmail(email);
         return ResponseEntity.ok(inbox);
     }
 
 
     @GetMapping("/messages")
-    public ResponseEntity getMessagesById(@PathParam("id") Long id){
-
-        List<Messages> inbox = inboxService.getMessagesByInboxId(id);
-        return ResponseEntity.ok(inbox);
+    public ResponseEntity getMessagesByInboxId(@PathParam("id") Long id){
+        List<MessagesResponse> messages = inboxService.getMessagesByInboxId(id);
+        return ResponseEntity.ok(messages);
     }
 
 
 
-
+    @GetMapping("/inboxId")
+    public ResponseEntity getInboxIdByEmailSenderAndReceiver(@PathParam("sender") String sender,@PathParam("receiver") String receiver){
+        System.out.println("----------->"+sender+"----------->"+receiver);
+        Long inboxId = inboxService.getInboxIdByReceiverAndSenderEmail(sender,receiver);
+        return ResponseEntity.ok(inboxId);
+    }
 
 }

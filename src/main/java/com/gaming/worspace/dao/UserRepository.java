@@ -27,6 +27,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     List<User> findByCityNameAndRatingAverageAndStypeId( String city,int rating,long id);
 
+    @Query("SELECT u FROM User u where u.email LIKE %:param% OR u.cityName LIKE %:param%")
+    List<User> findByCityOrEmail(@Param("param") String param);
+
 //    @Query("SELECT u FROM User u "+
 //            "WHERE LOWER(u.city.name)=LOWER(:city) and "+
 //            " ratingAverage=:rating "

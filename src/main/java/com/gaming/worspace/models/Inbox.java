@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "INBOX")
 public class Inbox {
 
     @Id
     @Column(name = "INBOX_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long  Id;
+    public long  id;
 
     @ManyToOne
     @JsonIgnore
@@ -36,12 +36,15 @@ public class Inbox {
 
     private String lastMessage;
 
+    public Inbox() {
+    }
+
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long ID) {
-        this.Id = ID;
+        this.id = ID;
     }
 
     public User getUser() {

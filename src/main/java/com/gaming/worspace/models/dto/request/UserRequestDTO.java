@@ -15,11 +15,20 @@ public class UserRequestDTO {
     private String description;
     private String image;
     private String cityName;
+    private String country;
     private boolean delivery;
 
 
 
     public UserRequestDTO() {
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getFirstname() {
