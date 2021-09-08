@@ -2,8 +2,9 @@ package com.gaming.worspace.services;
 
 
 import com.gaming.worspace.dao.NotificationRepository;
+import com.gaming.worspace.exceptions.NotFoundException;
 import com.gaming.worspace.models.Notification;
-import com.gaming.worspace.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +15,10 @@ public class NotificationService {
     private NotificationRepository notificationRepository;
     private UserServices userServices;
 
-
-    public NotificationService(NotificationRepository notificationRepository, UserServices userServices) {
+    @Autowired
+    public NotificationService(NotificationRepository notificationRepository, UserServices userServices, UserServices userServices1) {
         this.notificationRepository = notificationRepository;
-        this.userServices = userServices;
+        this.userServices = userServices1;
     }
 
 
@@ -30,7 +31,9 @@ public class NotificationService {
 
 
     public List<Notification> getListOfNotifications(String email){
-        return notificationRepository.findAllByUserEmail(email);
+        return notificationRepository.findAllByUserEmail(email)
+                .orElseThrow(()-> new NotFoundException("User Not Found"));
+
     }
 
 

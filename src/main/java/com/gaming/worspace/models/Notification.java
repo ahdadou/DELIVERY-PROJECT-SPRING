@@ -16,7 +16,7 @@ public class Notification extends DateAudit {
     @Id
     @Column(name = "Notification_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long  ID;
+    public long  id;
 
     @ManyToOne
     @JsonIgnore
@@ -27,13 +27,12 @@ public class Notification extends DateAudit {
     @JoinColumn(name = "USER_sender_ID")
     private User user_sender;
 
-
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
-    public void setID(long ID) {
-        this.ID = ID;
+    public void setId(long ID) {
+        this.id = ID;
     }
 
     public User getUser() {

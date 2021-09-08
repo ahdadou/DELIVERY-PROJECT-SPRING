@@ -1,6 +1,8 @@
 package com.gaming.worspace.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,13 +15,13 @@ public class Tracking {
     private long id;
 
     @OneToOne
+    @JsonIgnore
     private User user;
 
-    private double Latitude;
-    private double Longitude;
-
-
-    private String trackingCode;
+    private double latitude;
+    private double longitude;
+    private boolean active;
+    private String uuid;
 
 
     public Tracking() {
@@ -34,12 +36,20 @@ public class Tracking {
         this.id = id;
     }
 
-    public String getTrackingCode() {
-        return trackingCode;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setTrackingCode(String trackingCode) {
-        this.trackingCode = trackingCode;
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public User getUser() {
@@ -51,18 +61,18 @@ public class Tracking {
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 }

@@ -42,9 +42,9 @@ public class UserController {
 
 
     //  GET ALL USERS
-    @GetMapping("/all")
-    public ResponseEntity<?> getAllUser(){
-        List<User> users = userServices.getAllUser();
+    @GetMapping("/all/{email}")
+    public ResponseEntity<?> getAllUser(@PathVariable("email") String email){
+        List<UserResponse> users = userServices.getAllUser(email);
         return ResponseEntity.ok(users);
 
     }

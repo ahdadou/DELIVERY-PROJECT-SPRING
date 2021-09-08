@@ -2,10 +2,14 @@ package com.gaming.worspace.models.dto.response;
 
 import com.gaming.worspace.models.City;
 import com.gaming.worspace.models.Review;
+import com.gaming.worspace.models.Tracking;
 import com.gaming.worspace.models.enumerated.Gender;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +26,31 @@ public class UserResponse {
     private Gender gender;
     private String city;
     private String Country;
-    private int avergeRating;
     private boolean isCompteVerifie;
     private Instant birthday;
     private String phone;
+    private int reviewCount;
+    private int ratingAverage;
 
-    private List<ReviewResponse> reviews = new ArrayList<>();
 
+//    private List<ReviewResponse> reviews = new ArrayList<>();
+
+
+    public int getRatingAverage() {
+        return ratingAverage;
+    }
+
+    public void setRatingAverage(int ratingAverage) {
+        this.ratingAverage = ratingAverage;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
 
     public Instant getBirthday() {
         return birthday;
@@ -126,21 +148,8 @@ public class UserResponse {
         this.city = city;
     }
 
-    public List<ReviewResponse> getReviews() {
-        return reviews;
-    }
 
-    public void setReviews(List<ReviewResponse> reviews) {
-        this.reviews = reviews;
-    }
 
-    public int getAvergeRating() {
-        return avergeRating;
-    }
-
-    public void setAvergeRating(int avergeRating) {
-        this.avergeRating = avergeRating;
-    }
 
 
 }

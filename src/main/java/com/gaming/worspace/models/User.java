@@ -81,6 +81,7 @@ public class User extends DateAudit {
     private Stype stype;
 
     @OneToMany(mappedBy = "user_receiver",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
 
@@ -89,12 +90,14 @@ public class User extends DateAudit {
     private List<Inbox> inboxs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
     private String cityName;
     private String country;
 
 
+    private int reviewCount;
     @Column(name = "IS_ACTIVE",nullable = false)
     private Boolean active;
 
@@ -139,6 +142,14 @@ public class User extends DateAudit {
 
     public Tracking getTracking() {
         return tracking;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
     }
 
     public void setTracking(Tracking tracking) {

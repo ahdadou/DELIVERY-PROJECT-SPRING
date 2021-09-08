@@ -86,16 +86,17 @@ public class UserServices {
 
     //todo:     READ ITEM DTO BY EMAIL
     public UserResponse getUserDtoByEmail(String email){
-        return userRepository.findByEmail(email)
-                .map(user -> userMapper.toUserResponse(user))
+        User user= userRepository.findByEmail(email)
                 .orElseThrow(()-> new NotFoundException("User Not Found"));
+        return userMapper.toUserResponse(user);
     }
 
 
 
     //todo:    READ ALL ITEMS
-    public List<User> getAllUser(){
-        return userRepository.findAll();
+    public List<UserResponse> getAllUser(String email){
+        List<User> user= userRepository.findAllWithoutThis(email);
+        return userMapper.toUsersResponse(user);
 
     }
 

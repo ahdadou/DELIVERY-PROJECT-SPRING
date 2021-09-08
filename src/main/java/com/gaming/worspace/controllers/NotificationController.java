@@ -3,6 +3,7 @@ package com.gaming.worspace.controllers;
 
 import com.gaming.worspace.models.Notification;
 import com.gaming.worspace.services.NotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 public class NotificationController {
 
 
+    @Autowired
     private NotificationService notificationService;
 
     public NotificationController(NotificationService notificationService) {

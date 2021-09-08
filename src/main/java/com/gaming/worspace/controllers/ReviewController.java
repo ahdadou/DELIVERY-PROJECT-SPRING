@@ -6,6 +6,7 @@ import com.gaming.worspace.models.Notification;
 import com.gaming.worspace.models.Review;
 import com.gaming.worspace.models.dto.request.ReviewRequest;
 import com.gaming.worspace.models.dto.response.ApiResponse;
+import com.gaming.worspace.models.dto.response.ReviewResponse;
 import com.gaming.worspace.services.NotificationService;
 import com.gaming.worspace.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,8 @@ public class ReviewController {
 
     @GetMapping("/email")
     public ResponseEntity<?> getReviewByEmail(@PathParam("email") String email){
-        List<Review> reviews= this.reviewService.getByEmail(email);
+//        List<Review> reviews= this.reviewService.getByEmail(email);
+        List<ReviewResponse> reviews= this.reviewService.getReviewResponseByEmail(email);
         return ResponseEntity.ok(reviews);
     }
 
