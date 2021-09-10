@@ -33,6 +33,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("SELECT u FROM User u where u.email != :param")
     List<User> findAllWithoutThis(@Param("param") String param);
 
+    @Query("SELECT u FROM User u where u.email != :email AND u.email LIKE %:param% OR u.email != :email AND u.cityName LIKE %:param% OR u.email != :email AND u.firstname LIKE %:param% OR u.email != :email AND u.lastname LIKE %:param%")
+    List<User> findUsersByCityOrEmail(@Param("param") String param,@Param("email") String email);
+
 //    @Query("SELECT u FROM User u "+
 //            "WHERE LOWER(u.city.name)=LOWER(:city) and "+
 //            " ratingAverage=:rating "

@@ -37,4 +37,7 @@ public class NotificationService {
     }
 
 
+    public void deleteById(long id) {
+        this.notificationRepository.deleteById(id);
+    }
 }

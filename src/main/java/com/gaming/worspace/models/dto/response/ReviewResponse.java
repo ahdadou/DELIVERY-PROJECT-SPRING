@@ -18,6 +18,15 @@ public class ReviewResponse {
 
     private String body;
 
+    private Instant createAt;
+
+    public Instant getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Instant createAt) {
+        this.createAt = createAt;
+    }
 
     public long getID() {
         return ID;

@@ -209,4 +209,9 @@ public class UserServices {
         List<User> users =userRepository.findByCityOrEmail(param);
         return userMapper.toUsersResponse(users);
     }
+
+    public List<UserResponse> findUsersByCityOrEmail(String param, String email) {
+        List<User> users =userRepository.findUsersByCityOrEmail(param,email);
+        return userMapper.toUsersResponse(users);
+    }
 }

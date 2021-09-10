@@ -33,14 +33,24 @@ public class ReviewService {
 
     //todo: add review
     public Optional<Review> addReview(ReviewRequest reviewRequest){
-        User senderUser = userServices.getUserByEmail(reviewRequest.getEmail_sender());
-        User receiverUser = userServices.getUserByEmail(reviewRequest.getEmail_receiver());
-        Review review = new Review();
-        review.setBody(reviewRequest.getBody());
-        review.setRating(reviewRequest.getRating());
-        review.setUser_sender(senderUser);
-        review.setUser_receiver(receiverUser);
-        updateUserReview(receiverUser,reviewRequest);
+
+
+        Review review = reviewRepository.findByUser_receiverEmailAndUser_senderEmail(reviewRequest.getEmail_receiver(),reviewRequest.getEmail_sender());
+
+        if(review!=null){
+            review.setBody(reviewRequest.getBody());
+            review.setRating(reviewRequest.getRating());
+        }else{
+            review=new Review();
+            User senderUser = userServices.getUserByEmail(reviewRequest.getEmail_sender());
+            User receiverUser = userServices.getUserByEmail(reviewRequest.getEmail_receiver());
+            review.setBody(reviewRequest.getBody());
+            review.setRating(reviewRequest.getRating());
+            review.setUser_sender(senderUser);
+            review.setUser_receiver(receiverUser);
+            updateUserReview(receiverUser,reviewRequest);
+        }
+
         return Optional.ofNullable(reviewRepository.save(review));
     }
 
@@ -65,14 +75,7 @@ public class ReviewService {
     public void updateUserReview(User user,ReviewRequest reviewRequest){
         user.setReviewCount(user.getReviewCount()+1);
         double average = (user.getRatingAverage()+reviewRequest.getRating())/(user.getReviewCount()+1);
-        System.out.println("------------------------>"+user.getRatingAverage());
-        System.out.println("------------------------>"+reviewRequest.getRating());
-        System.out.println("------------------------>"+user.getReviewCount()+1);
-        System.out.println("------------------------>"+user.getReviewCount());
-
-        System.out.println("------------------------>"+average);
         user.setRatingAverage((int)average);
-        System.out.println("------------------------>"+reviewRequest.getRating());
 
         userServices.save(user);
     }

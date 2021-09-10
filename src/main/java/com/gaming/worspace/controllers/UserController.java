@@ -67,13 +67,13 @@ public class UserController {
 
 
 
-
-
-
-
-
-
-    //    DELETE BY USER_ID
+    //    Filter
+    @GetMapping("/filter")
+    public ResponseEntity<?> getAllUsersByCityOrEmail(@PathParam("param")String param,@PathParam("email")String email){
+        System.out.println("-----***97687686------------8******----->"+email);
+        List<UserResponse> users  = userServices.findUsersByCityOrEmail(param,email);
+        return ResponseEntity.ok(users);
+    }
 
 
     
